@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-
+const textSearch = require("mongoose-partial-full-search");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Employee = new mongoose.Schema({
   code: {
     type: String,
@@ -52,12 +54,18 @@ const Employee = new mongoose.Schema({
     minlength: 6,
     select: false,
   },
+  confirmed: {
+    type: Boolean,
+    default: false,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
     required: true,
   },
 });
+Employee.plugin(textSearch);
+Employee.index({ "$**": "text" });
 //VALIDATING BEFORE SAVING
 Employee.pre("save", function (next) {
   //generating ranom number and apply it to code
@@ -69,4 +77,20 @@ Employee.pre("save", function (next) {
   this.code = generatedCode;
   next();
 });
+//HASHING PASSWORD
+Employee.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+//CREATING TOKEN
+Employee.methods.getSignedJWT = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+//PASSWORD COMPARE
+Employee.methods.comparePassord = async function (enterdPassword) {
+  return bcrypt.compare(enterdPassword, this.password);
+};
 module.exports = mongoose.model("employee", Employee);
