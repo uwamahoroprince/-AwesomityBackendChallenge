@@ -1,0 +1,5 @@
+::1 - - [16/Oct/2021:15:36:22 +0000] "GET /api/employee/ HTTP/1.1" 200 693 "-" "PostmanRuntime/7.28.4"
+::1 - - [16/Oct/2021:15:36:58 +0000] "POST /api/authentication/login HTTP/1.1" 200 678 "-" "PostmanRuntime/7.28.4"
+::1 - - [16/Oct/2021:15:40:11 +0000] "POST /api/authentication/forgotPassword HTTP/1.1" 200 69 "-" "PostmanRuntime/7.28.4"
+::1 - - [16/Oct/2021:15:41:27 +0000] "POST /api/authentication/resetPassword/616a265c63bae155bb0f961c HTTP/1.1" 200 95 "-" "PostmanRuntime/7.28.4"
+::1 - - [16/Oct/2021:15:41:50 +0000] "POST /api/authentication/login HTTP/1.1" 200 678 "-" "PostmanRuntime/7.28.4"

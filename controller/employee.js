@@ -7,22 +7,53 @@ let token = "";
 //  @routes /api/employee
 //  @method POST
 exports.createEmployee = asyncHander(async (req, res, next) => {
-  const { email } = req.body;
+  const { email, phoneNumber, nationalId, dateOfBirth } = req.body;
   const isExist = await Employee.findOne({ email });
-  //validating if email exist and return
 
+  //VALIDATIONS//
+  //validating nationalID
+  if (nationalId.length !== 16) {
+    return next(
+      new ErrorResponse(
+        "could not complete. nationalId must be 16 integers",
+        400
+      )
+    );
+  }
+  //validating phoneNumber
+  if (!phoneNumber.startsWith("+250") || phoneNumber.length != 13) {
+    return next(
+      new ErrorResponse("could not complete. phoneNumber must be rwandan", 400)
+    );
+  }
+  //validating how old -> not under 18 years old
+  const yearsOld =
+    new Date(new Date(Date.now()).getFullYear()) -
+    new Date(dateOfBirth).getFullYear();
+  if (yearsOld < 18) {
+    return next(
+      new ErrorResponse(
+        "could not complete. under 18 employees are not allowed",
+        400
+      )
+    );
+  }
+
+  // make sure email dose not exist then create new employee and send email to validate new account
   if (isExist) {
-    return next(new ErrorResponse("sorry! there is an ccount with email", 400));
+    return next(
+      new ErrorResponse("sorry! there is an account with email", 400)
+    );
   } else {
     try {
       const employee = await Employee.create(req.body);
       if (!employee) {
         return next(new ErrorResponse("could not register an employee", 400));
       }
-      //SENDING JWT INTO COOKIE
       if (employee.position === "MANAGER") {
+        //SENDING JWT INTO COOKIE
         sendTokenResponse(employee, 200, res);
-        const confirmURL = `http://localhost:3000/api/authentication/${token}`;
+        const confirmURL = `${process.env.APPLICATION_URL}/authentication/${token}`;
         await mailSender(req.body, confirmURL, employee.position);
       } else {
         await mailSender(req.body);

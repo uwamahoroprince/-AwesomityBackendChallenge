@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const Employee = new mongoose.Schema({
   code: {
     type: String,
-    // required: true,
     unique: true,
     trim: true,
   },
@@ -18,17 +17,19 @@ const Employee = new mongoose.Schema({
     type: String,
     require: [true, "please provide national-id is required"],
     trim: true,
+    unique: true,
   },
 
   phoneNumber: {
     type: String,
     require: [true, "please provide Phone number is required"],
     trim: true,
+    unique: true,
   },
   email: {
     type: String,
     required: [true, "Please provide an email is required"],
-    // unique: true,
+    unique: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please add a valid email",
@@ -36,8 +37,7 @@ const Employee = new mongoose.Schema({
   },
   dateOfBirth: {
     type: Date,
-    // required: [true, "please provide date of birth is required"],
-    default: Date.now,
+    required: [true, "please provide date of birth is required"],
   },
   status: {
     type: String,

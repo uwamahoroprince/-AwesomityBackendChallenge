@@ -54,7 +54,7 @@ exports.login = asyncHander(async (req, res, next) => {
   //comparing enterd password with the one from database
   const isExist = await employee.comparePassord(password);
   if (!isExist) {
-    return next(new ErrorResponse("invalid credentails1", 401));
+    return next(new ErrorResponse("invalid credentails", 401));
   }
   //  validating if account is confirmed account
   if (!employee.confirmed) {
