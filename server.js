@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 
 //IMPORTING ROUTES
 const employee = require("./routes/employee");
-const confirmAccount = require("./routes/auth");
+const authentication = require("./routes/auth");
 
 //DEFINING MIDDLEWARES//
 // Body parser
@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 //EXECUTING ROUTES MIDDLEWARE
 app.use("/api/employee", employee);
-app.use("/api/confirmAccount", confirmAccount);
+app.use("/api/authentication", authentication);
 
 //CONNECTING TO MONGODB DATABASE
 dbConnection();

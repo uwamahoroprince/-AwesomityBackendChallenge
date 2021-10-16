@@ -7,15 +7,22 @@ let token = "";
 //  @routes /api/employee
 //  @method POST
 exports.createEmployee = asyncHander(async (req, res, next) => {
-  const employee = await Employee.create(req.body);
-  if (!employee) {
-    return next(new ErrorResponse("Employee not created", 400));
+  const { email } = req.body;
+  const isExist = await Employee.findOne({ email });
+  //validating if email exist and return
+
+  if (isExist) {
+    return next(new ErrorResponse("sorry! there is an ccount with email", 400));
   } else {
     try {
+      const employee = await Employee.create(req.body);
+      if (!employee) {
+        return next(new ErrorResponse("could not register an employee", 400));
+      }
       //SENDING JWT INTO COOKIE
       if (employee.position === "MANAGER") {
         sendTokenResponse(employee, 200, res);
-        const confirmURL = `http://localhost:3000/api/confirmAccount/${token}`;
+        const confirmURL = `http://localhost:3000/api/authentication/${token}`;
         await mailSender(req.body, confirmURL, employee.position);
       } else {
         await mailSender(req.body);
@@ -191,3 +198,4 @@ const sendTokenResponse = (employee, statusCode, res) => {
     token,
   });
 };
+exports.sendTokenResponse = sendTokenResponse;

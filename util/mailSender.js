@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const mailSender = async (options, confirmURL, position) => {
+const mailSender = async (options, redirectLink, position, status) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
@@ -16,7 +16,9 @@ const mailSender = async (options, confirmURL, position) => {
     text:
       position === "MANAGER"
         ? `Hello ${options.name}\n
-    please click to this link to confirm you account ${confirmURL}`
+    please click to this link to confirm you account ${redirectLink}`
+        : status === "resetPassword"
+        ? `click here to reset your password ${redirectLink}`
         : `Hello ${options.name}\n
     this is to inform you that you are now part of our huge team,\n     All about next moves will be communicated to you very soon.
     \n Thanks`, // plain text body
