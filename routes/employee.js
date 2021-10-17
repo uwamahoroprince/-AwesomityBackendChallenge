@@ -7,6 +7,7 @@ const {
   suspendEmployee,
   activateEmployee,
   searchAnEmployee,
+  createEmployeeFromFileUpload,
 } = require("../controller/employee");
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router
 router.route("/modify/suspend/:id").patch(suspendEmployee);
 router.route("/modify/activate/:id").patch(activateEmployee);
 router.route("/search").post(searchAnEmployee);
+router.route("/upload").post(createEmployeeFromFileUpload);
 
 module.exports = router;

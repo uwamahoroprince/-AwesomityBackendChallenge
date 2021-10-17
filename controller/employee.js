@@ -1,3 +1,4 @@
+const reader = require("xlsx");
 const asyncHander = require("../util/async");
 const ErrorResponse = require("../util/errorResponce");
 const Employee = require("../model/employee");
@@ -208,6 +209,58 @@ exports.searchAnEmployee = async (req, res, next) => {
     });
   }
 };
+
+//  @desc UPLOAD EMPLOYEES
+//  @routes /api/employee/upload/
+//  @method POST
+exports.createEmployeeFromFileUpload = asyncHander(async (req, res, next) => {
+  if (!req.files) {
+    return next(new ErrorResponse("please provide excel file", 400));
+  }
+  // creating custom file name
+  const initialValue = "File";
+  min = Math.ceil(1000);
+  max = Math.floor(10000);
+  const number = Math.floor(Math.random() * (max - min) + min);
+  const generatedCode = initialValue + number;
+  const excelFile = req.files.excelFile;
+  const fileName = `${generatedCode}-${excelFile.name}`;
+  //defining path to file
+
+  const pathToFile = `${process.env.FILE_UPLOAD}/${fileName}`;
+  //uploading file
+  await excelFile.mv(pathToFile);
+
+  // Reading uploaded file
+  const file = reader.readFile(pathToFile);
+  let data = [];
+  const sheets = file.SheetNames;
+  for (let i = 0; i < sheets.length; i++) {
+    const temp = reader.utils.sheet_to_json(file.Sheets[file.SheetNames[i]]);
+    temp.forEach((res) => {
+      data.push(res);
+    });
+  }
+  //CREATING EMPLOYEES FROM FILE
+  try {
+    for (const key in data) {
+      const employee = await Employee.create(data[key]);
+      if (!employee) {
+        return next(new ErrorResponse("could not register an employee", 400));
+      }
+
+      await mailSender(employee);
+    }
+    res.status(201).json({
+      success: true,
+      count: data.length,
+      msg: `${data.length} employees from excel file have created successfuly`,
+    });
+  } catch (error) {
+    console.log(error);
+    return next(new ErrorResponse("could not send email", 500));
+  }
+});
 //METHOD TO SEND TOKEN RESPONCE
 const sendTokenResponse = (employee, statusCode, res) => {
   token = employee.getSignedJWT();

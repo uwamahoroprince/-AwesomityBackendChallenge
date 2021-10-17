@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 var fs = require("fs");
 var morgan = require("morgan");
 var path = require("path");
+const fileupload = require("express-fileupload");
+const cors = require("cors");
 const app = express();
 const dbConnection = require("./config/db");
 const errorHandler = require("./middleware/error");
@@ -13,11 +15,13 @@ const employee = require("./routes/employee");
 const authentication = require("./routes/auth");
 
 //DEFINING MIDDLEWARES//
+app.use(cors());
 // Body parser
 app.use(express.json());
 //cookie-Parser
 app.use(cookieParser());
-
+//file upload express-middlewere
+app.use(fileupload());
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
   flags: "a",
