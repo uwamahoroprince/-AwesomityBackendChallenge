@@ -19,10 +19,10 @@ System Logs record all the manager’s activities. and can be found in access.lo
 
 ## make sure that you have the following installed
 
-nodejs version 14 + (https://nodejs.org/en/)
-npm version 6 +
-postman(or any api consummer app) -> (https://www.postman.com/downloads/)
-mongoDB (https://www.mongodb.com/try/download/community)
+nodejs version 14 + (https://nodejs.org/en/).
+npm version 6 +.
+postman(or any api consummer app) -> (https://www.postman.com/downloads/).
+mongoDB (https://www.mongodb.com/try/download/community).
 mongoDB compass (https://www.mongodb.com/try/download/compass) not necessary though
 
 ## API

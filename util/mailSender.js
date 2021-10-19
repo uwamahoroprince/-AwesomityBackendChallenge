@@ -18,7 +18,7 @@ const mailSender = async (options, redirectLink, position, status) => {
         ? `Hello ${options.name}\n
     please click to this link to confirm you account ${redirectLink}`
         : status === "resetPassword"
-        ? `click here to reset your password ${redirectLink}`
+        ? `copy this link and past it in the URL of the [reset password] endpoint ${redirectLink}`
         : `Hello ${options.name}\n
     this is to inform you that you are now part of our huge team,\n     All about next moves will be communicated to you very soon.
     \n Thanks`, // plain text body
