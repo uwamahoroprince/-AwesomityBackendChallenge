@@ -186,7 +186,7 @@ exports.activateEmployee = asyncHander(async (req, res, next) => {
 //  @desc SEARCH AN EMPLOYEES
 //  @routes /api/employee/id
 //  @method PATCH
-exports.searchAnEmployee = async (req, res, next) => {
+exports.searchAnEmployee = asyncHander(async (req, res, next) => {
   const { name, email, position, code, phoneNumber } = req.body;
   const employee = await Employee.search(
     email || name || position || phoneNumber || code,
@@ -208,7 +208,7 @@ exports.searchAnEmployee = async (req, res, next) => {
       data: employee,
     });
   }
-};
+});
 
 //  @desc UPLOAD EMPLOYEES
 //  @routes /api/employee/upload/

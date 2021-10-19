@@ -28,11 +28,9 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
 });
 // setup the logger
 app.use(morgan("combined", { stream: accessLogStream }));
-
 //EXECUTING ROUTES MIDDLEWARE
 app.use("/api/employee", employee);
 app.use("/api/authentication", authentication);
-
 //CONNECTING TO MONGODB DATABASE
 dbConnection();
 
@@ -49,3 +47,4 @@ app.listen(PORT, () => {
     `server is running in ${process.env.NODE_ENV} on http://localhost:${PORT}`
   );
 });
+module.exports = app;

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=production node server",
     "dev": "nodemon server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "swagger-autogen": "node swagger.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,12 @@
     "nodemailer": "^6.7.0",
     "nodemon": "^2.0.13",
     "path": "^0.12.7",
+    "swagger-autogen": "^2.11.2",
+    "swagger-ui-express": "^4.1.6",
     "xlsx": "^0.17.3"
+  },
+  "devDependencies": {
+    "jest": "^27.3.0",
+    "supertest": "^6.1.6"
   }
 }
