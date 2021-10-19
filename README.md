@@ -40,19 +40,27 @@ https://github.com/uwamahoroprince/-AwesomityBackendChallenge.git
 
 ## open terminal and navigate to project directory then run next command
 
-npm install
+```
+$ npm install
+```
 
 ## run application in development mode
 
-npm run dev
+```
+$ npm run dev
+```
 
 ## run application in production mode make sure that port 3000 is free
 
-npm start
+```
+$ npm start
+```
 
 ## run Tests. make sure that port 3000 is free
 
-npm test
+```
+$ npm test
+```
 
 ## Contributors
 
